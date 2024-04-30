@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 
 public class SetOfStacks {
     ArrayList<Stack> stacks = new ArrayList<Stack>();
