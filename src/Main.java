@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //Sorting
@@ -12,30 +14,63 @@ import java.util.List;
 //Trie
 //HashTable
 //Array and string
-//Queue and stack
+//Queue and stack(Done)
 //Decision tree
 
 public class Main {
     public static void main(String[] args) {
-        //SetOfStacks();
-        //AnimalQueue();
-        //BinaryTree();
-        //Trie();
-        //Sorting();
-        //ArraysSolution();
-        LinkedList();
+        Queue();
+    }
+
+    public static void Queue(){
+        MyCircularQueue queue = new MyCircularQueue(3);
+//        String[] value = new String[]{"enQueue","Rear","Rear","deQueue","enQueue","Rear","deQueue","Front","deQueue","deQueue","deQueue"};
+//        int[] val = new int[]{6,0,0,0,5,0};
+//        for (int i = 0; i < value.length; i++) {
+//            switch (value[i]){
+//                case "enQueue": boolean enq = queue.enQueue(val[i]);
+//                break;
+//                case "deQueue": boolean deq = queue.deQueue();
+//                break;
+//                case "Rear": int v = queue.rear();
+//                break;
+//                case "Front": int f = queue.front();
+//                break;
+//                case "isFull": boolean isF = queue.isFull();
+//                break;
+//                case "isEmpty": boolean isE = queue.isEmpty();
+//                break;
+//            }
+//        }
+        int[][] grid = new int[][]{
+                {0,0,0},
+                {0,1,0},
+                {1,1,1}
+        };
+//        queue.numIslands(grid);
+//        BinaryNode node = new BinaryNode("1");
+//        node.right = new BinaryNode("2");
+//        node.right.left = new BinaryNode("3");
+        String s = "3[a]2[bc]de";
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList(1,3));
+        list.add(Arrays.asList(1,4));
+        list.add(Arrays.asList(2,3,4,1));
+        list.add(Arrays.asList());
+        list.add(Arrays.asList(4,3,2));
+        boolean isValid = queue.canVisitAllRooms(list);
     }
 
     public static void LinkedList(){
 //        int[] inputs = new int[]{84,2,39,3,1,42,1,80,14,1,53,98,19,12,2,16,33,4,17,6,8,37,43,11,80,31,13,23,17,4,10,0,21,73,22,24,37,14,97,8,6,17,50,28,76,79,18,30,5,9,83,3,40,26,20,90,30,40,56,15,23,51,21,26,83,30,12,8,4,20,45,10,56,18,33,2,70,57,31,24,16,92,40,23,26,1,92,3,78,42,18,39,9,13,33,17,51,18,95,18,33,80,21,7,17,46,33,60,26,4,9,45,38,95,78,54,42,86};
 //        String[] input = new String[]{"addAtHead","addAtTail","addAtTail","get","get","addAtTail","addAtIndex","addAtHead","addAtHead","addAtTail","addAtTail","addAtTail","addAtTail","get","addAtHead","addAtHead","addAtIndex","addAtIndex","addAtHead","addAtTail","deleteAtIndex","addAtHead","addAtHead","addAtIndex","addAtTail","get","addAtIndex","addAtTail","addAtHead","addAtHead","addAtIndex","addAtTail","addAtHead","addAtHead","get","deleteAtIndex","addAtTail","addAtTail","addAtHead","addAtTail","get","deleteAtIndex","addAtTail","addAtHead","addAtTail","deleteAtIndex","addAtTail","deleteAtIndex","addAtIndex","deleteAtIndex","addAtTail","addAtHead","addAtIndex","addAtHead","addAtHead","get","addAtHead","get","addAtHead","deleteAtIndex","get","addAtHead","addAtTail","get","addAtHead","get","addAtTail","get","addAtTail","addAtHead","addAtIndex","addAtIndex","addAtHead","addAtHead","deleteAtIndex","get","addAtHead","addAtIndex","addAtTail","get","addAtIndex","get","addAtIndex","get","addAtIndex","addAtIndex","addAtHead","addAtHead","addAtTail","addAtIndex","get","addAtHead","addAtTail","addAtTail","addAtHead","get","addAtTail","addAtHead","addAtTail","get","addAtIndex"};
        MyLinkedList ll = new MyLinkedList();
-        ll.addAtHead(6);
-        ll.addAtHead(5);
+        ll.addAtHead(-2);
+        ll.addAtHead(0);
         ll.addAtHead(4);
         ll.addAtHead(3);
-        ll.addAtHead(2);
-        ll.addAtHead(1);
+        ll.addAtHead(5);
+        ll.addAtHead(-1);
         MyNode val = ll.rotateRight(ll.head, 4);
 //        MyLinkedList ll2 = new MyLinkedList();
 //        ll2.addAtHead(10);
@@ -88,7 +123,7 @@ public class Main {
     }
 
     public static void Sorting(){
-        int[] arr = new int[]{9, 4, 7, 1, 6, 2, 8, 3, 5};
+        //int[] arr = new int[]{2,0,2,1,1,0};
         Sorting sort = new Sorting();
         //sort.Bubble(arr);
         //sort.Selection(arr);
@@ -96,7 +131,15 @@ public class Main {
         //sort.Bucket(arr);
         //sort.Merge(arr);
         //sort.Quick(arr);
-        sort.Heap(arr);
+        //sort.sortColors(arr);
+        MyLinkedList ll = new MyLinkedList();
+        ll.addAtHead(-2);
+        ll.addAtHead(0);
+        ll.addAtHead(4);
+        ll.addAtHead(3);
+        ll.addAtHead(5);
+        ll.addAtHead(-1);
+        sort.insertionSortList(ll.head);
     }
 
     public static void Trie(){

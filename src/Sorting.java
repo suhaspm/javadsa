@@ -145,4 +145,37 @@ public class Sorting {
             arr[i] = bh.extractFromHeap("Min");
         }
     }
+
+    public void sortColors(int[] nums){
+        for (int i = 0; i < nums.length; i++) {
+            int min = Integer.MAX_VALUE, idx = 0;
+            for (int j = i; j < nums.length; j++) {
+                if (nums[j] < min){
+                    min = nums[j];
+                    idx = j;
+                }
+            }
+            int temp = nums[i];
+            nums[i] = nums[idx];
+            nums[idx] = temp;
+        }
+    }
+
+    public MyNode insertionSortList(MyNode head){
+        if(head == null) return null;
+        MyNode dummy = new MyNode();
+        //dummy.next = head;
+        MyNode prev = dummy, current = head, next = null;
+        for (int i = 0; current!=null; i++) {
+            next = current.next;
+            while (prev.next != null && prev.next.value < current.value){
+                prev = prev.next;
+            }
+            current.next = prev.next;
+            prev.next = current;
+            prev = dummy;
+            current = next;
+        }
+        return dummy.next;
+    }
 }
