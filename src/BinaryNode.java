@@ -3,4 +3,12 @@ public class BinaryNode {
     public BinaryNode left;
     public BinaryNode right;
     public int height;
+
+    public BinaryNode(){
+
+    }
+
+    public BinaryNode(String value){
+        this.value = value;
+    }
 }
