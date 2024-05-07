@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 //Sorting
 //Arrays(Done)
@@ -19,7 +17,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Queue();
+        BinaryTree();
     }
 
     public static void Queue(){
@@ -123,7 +121,7 @@ public class Main {
     }
 
     public static void Sorting(){
-        //int[] arr = new int[]{2,0,2,1,1,0};
+        int[] arr = new int[]{7,3,2,5,6,10,9,8,1};
         Sorting sort = new Sorting();
         //sort.Bubble(arr);
         //sort.Selection(arr);
@@ -131,6 +129,7 @@ public class Main {
         //sort.Bucket(arr);
         //sort.Merge(arr);
         //sort.Quick(arr);
+        sort.Heap(arr);
         //sort.sortColors(arr);
         MyLinkedList ll = new MyLinkedList();
         ll.addAtHead(-2);
@@ -151,19 +150,51 @@ public class Main {
     }
 
     public static void BinaryTree(){
+        BinaryNode node = new BinaryNode();
+        node.value = "1";
+        BinaryTreeLL bt = new BinaryTreeLL(node);
+        bt.root.left = new BinaryNode("2");
+        bt.root.right = new BinaryNode("3");
+//        bt.root.left.left = new BinaryNode("1");
+//        bt.root.left.right = new BinaryNode("7");
+//        bt.root.left.left.left = new BinaryNode("5");
+//        bt.root.left.left.right = new BinaryNode("1");
+        bt.root.right.left = new BinaryNode("4");
+        bt.root.right.right = new BinaryNode("5");
+//        bt.root.right.left.right = new BinaryNode("6");
+//        bt.root.right.right.right = new BinaryNode("8");
+        String val = bt.serialize(node);
+        BinaryNode v = bt.deserialize(val);
+    }
 
-        BinaryTree tree = new BinaryTree(5);
-        tree.insert("A");
-        tree.insert("B");
-        tree.insert("C");
-        tree.insert("D");
-        tree.insert("E");
-        tree.preOrder(1);
-        tree.inOrder(1);
-        tree.postOrder(1);
-        tree.search("B");
-        tree.delete("B");
-        tree.preOrder(1);
+    private static void createMapping(int[] inorder, Map<Integer, Integer> nodeToIndex, int n) {
+        for (int i = 0; i < n; i++) {
+            nodeToIndex.put(inorder[i], i);
+        }
+    }
+
+    private static BinaryNode solve(int[] inorder, int[] postorder, int[] index, int inorderStart, int inorderEnd, Map<Integer, Integer> nodeToIndex, int n) {
+        if (index[0] < 0 || inorderStart > inorderEnd)
+            return null;
+
+        int element = postorder[index[0]];
+        BinaryNode root = new BinaryNode(String.valueOf(element));
+        int position = nodeToIndex.get(element);
+        index[0] -= 1;
+
+        root.right = solve(inorder, postorder, index, position + 1, inorderEnd, nodeToIndex, n);
+        root.left = solve(inorder, postorder, index, inorderStart, position - 1, nodeToIndex, n);
+
+        return root;
+    }
+
+    public static BinaryNode buildTree(int[] inorder, int[] postorder) {
+        int n = inorder.length;
+        int[] postorderIndex = {n - 1};
+
+        Map<Integer, Integer> nodeToIndex = new HashMap<>();
+        createMapping(inorder, nodeToIndex, n);
+        return solve(inorder, postorder, postorderIndex, 0, n - 1, nodeToIndex, n);
     }
 
     public static void SetOfStacks(){
