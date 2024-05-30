@@ -17,7 +17,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        BinaryTree();
+        Solution();
     }
 
     public static void Queue(){
@@ -219,5 +219,19 @@ public class Main {
         String name = animals.dequeueAny().name();
         name = animals.dequeueDogs().name();
         name = animals.dequeueCats().name();
+    }
+
+    public static void Solution(){
+        StringSolution sol = new StringSolution();
+        sol.palindromePairs(new String[]{"abcd","dcba","lls","s","sssll"});
+        //val = sol.largestNumber(new int[]{10,2});
+        //val = sol.largestNumber(new int[]{3,49,34,39,99,9});
+//        val = sol.myAtoi("0-4");
+//        val = sol.myAtoi("-42");
+//        val = sol.myAtoi("2147483648");
+//        val = sol.myAtoi("21474836472");
+//        val = sol.myAtoi("-2147483648");
+//        val = sol.myAtoi("-2147483649");
+
     }
 }
