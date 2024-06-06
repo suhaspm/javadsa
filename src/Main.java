@@ -222,16 +222,11 @@ public class Main {
     }
 
     public static void Solution(){
-        StringSolution sol = new StringSolution();
-        sol.palindromePairs(new String[]{"abcd","dcba","lls","s","sssll"});
-        //val = sol.largestNumber(new int[]{10,2});
-        //val = sol.largestNumber(new int[]{3,49,34,39,99,9});
-//        val = sol.myAtoi("0-4");
-//        val = sol.myAtoi("-42");
-//        val = sol.myAtoi("2147483648");
-//        val = sol.myAtoi("21474836472");
-//        val = sol.myAtoi("-2147483648");
-//        val = sol.myAtoi("-2147483649");
-
+        BinaryTreeSolution sol = new BinaryTreeSolution();
+        TreeNode root = sol.createBinaryTree(new Integer[]{1,-2,-3});
+        //sol.arr = new int[]{1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0};
+        //ListNode root = sol.createLinkedList(new int[]{1,2,3,4,5});
+        int val = sol.pathSum3(root, 1);
+        //TreeNode root2 = sol.createBinaryTree(new Integer[]{4,1,2});
     }
 }
