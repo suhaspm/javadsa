@@ -3,6 +3,10 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class LinkedListSolution {
+    int capacity, count;
+    Node head, tail;
+    Node[] map;
+
     public ListNode createLinkedList(int[] list){
         ListNode head = new ListNode(list[0]);
         ListNode temp = head;
@@ -189,5 +193,65 @@ public class LinkedListSolution {
             i++;
         }
         return temp;
+    }
+
+    public void LRUCache(int capacity){
+        this.capacity = capacity;
+        count = 0;
+        map = new Node[10_000+1];
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+        head.prev = null;
+        tail.next = null;
+    }
+
+    public int get(int key){
+        if(map[key] != null){
+            Node node = map[key];
+            int val = node.val;
+            deleteNode(node);
+            addNodeToHead(node);
+            return val;
+        }
+        else
+            return -1;
+    }
+
+    public void put(int key, int value){
+        if(map[key] != null){
+            Node node = map[key];
+            node.val = value;
+            deleteNode(node);
+            addNodeToHead(node);
+        }
+        else{
+            Node node = new Node();
+            node.val = value;
+            node.min = key;
+            map[key] = node;
+            if(count < capacity){
+                count++;
+                addNodeToHead(node);
+            }
+            else{
+                map[tail.prev.min] = null;
+                deleteNode(tail.prev);
+                addNodeToHead(node);
+            }
+        }
+    }
+
+    private  void deleteNode(Node node){
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void addNodeToHead(Node node){
+        node.next = head.next;
+        node.next.prev = node;
+        node.prev = head;
+        head.next = node;
     }
 }

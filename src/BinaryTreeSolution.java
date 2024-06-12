@@ -215,4 +215,126 @@ public class BinaryTreeSolution {
         pathSum3(root.right, targetSum, sum);
         hMap.put(sum,hMap.get(sum)-1);
     }
+
+    public int widthOfBinaryTree(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        int[] out = new int[1];
+        dfs(root,1,0,list,out);
+        return out[0];
+    }
+
+    private void dfs(TreeNode root, int num, int depth, List<Integer> list, int[] res){
+        if(root == null) return;
+        if(depth >= list.size()) list.add(num);
+        res[0] = Integer.max(res[0], num+1-list.get(depth));
+        dfs(root.left, num*2, depth+1,list, res);
+        dfs(root.right, num*2+1,depth+1,list, res);
+    }
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root){
+        List<List<Integer>> list = new ArrayList<>();
+        if(root == null) return list;
+        zigzagLevelOrder(root,1,list);
+        return list;
+    }
+
+    private void zigzagLevelOrder(TreeNode root, int level,List<List<Integer>> list){
+        if(root == null) return;
+        if(level > list.size())
+            list.add(new ArrayList<>());
+        if(level % 2 == 0)
+            list.get(level-1).addFirst(root.val);
+        else
+            list.get(level-1).addLast(root.val);
+        zigzagLevelOrder(root.left,level+1,list);
+        zigzagLevelOrder(root.right,level+1,list);
+    }
+
+    public void getParentsByBFS(Map<TreeNode, TreeNode> parent, TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+            while (n-- > 0) {
+                TreeNode curr = queue.poll();
+                if (curr.left != null) {
+                    parent.put(curr.left, curr);
+                    queue.offer(curr.left);
+                }
+                if (curr.right != null) {
+                    parent.put(curr.right, curr);
+                    queue.offer(curr.right);
+                }
+            }
+        }
+    }
+
+    public void getParentsByDFS(Map<TreeNode, TreeNode> parent, TreeNode root) {
+        if (root == null)
+            return;
+        if (root.left != null)
+            parent.put(root.left, root);
+        if (root.right != null)
+            parent.put(root.right, root);
+        getParentsByDFS(parent, root.left);
+        getParentsByDFS(parent, root.right);
+    }
+
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        Map<TreeNode, TreeNode> parent = new HashMap<>();
+        getParentsByDFS(parent, root);
+        Queue<TreeNode> queue = new LinkedList<>();
+        Map<TreeNode, Boolean> visited = new HashMap<>();
+        visited.put(target, true);
+        queue.offer(target);
+        int level = 0;
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+            if (level == k)
+                break;
+            level++;
+            while (n-- > 0) {
+                TreeNode curr = queue.poll();
+                if (curr.left != null && !visited.containsKey(curr.left)) {
+                    visited.put(curr.left, true);
+                    queue.offer(curr.left);
+                }
+                if (curr.right != null && !visited.containsKey(curr.right)) {
+                    visited.put(curr.right, true);
+                    queue.offer(curr.right);
+                }
+                if (parent.containsKey(curr) && !visited.containsKey(parent.get(curr))) {
+                    visited.put(parent.get(curr), true);
+                    queue.offer(parent.get(curr));
+                }
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            ans.add(queue.poll().val);
+        }
+        return ans;
+    }
+
+    public boolean isPalindrom(int x){
+        if(x < 0) return false;
+        else if(x == 0) return true;
+        else{
+            if(x%10==0) return false;
+            int y = 0 ,z=x;
+            while(z!=0){
+                y=y*10+z%10;
+                z/=10;
+            }
+            if(x==y)return true;
+        }
+        return false;
+    }
+
+    public int singleNumber(int[] nums){
+        int ans=0;
+        for(int x:nums)
+            ans^=x;
+        return ans;
+    }
 }

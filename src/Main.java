@@ -222,11 +222,23 @@ public class Main {
     }
 
     public static void Solution(){
-        BinaryTreeSolution sol = new BinaryTreeSolution();
-        TreeNode root = sol.createBinaryTree(new Integer[]{1,-2,-3});
+        HashTableSolution sol = new HashTableSolution();
+        //TreeNode root = sol.createBinaryTree(new Integer[]{3,5,1,6,2,0,8,null,null,7,4});
         //sol.arr = new int[]{1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0};
         //ListNode root = sol.createLinkedList(new int[]{1,2,3,4,5});
-        int val = sol.pathSum3(root, 1);
+        sol.findDuplicate(new int[]{1,3,4,2,2});
+//        sol.set("foo","bar3",7);
+//        sol.set("foo","bar4",9);
+//        sol.set("foo","bar5",10);
+//        sol.set("foo","bar6",12);
+//        sol.set("foo","bar7",15);
+//        sol.set("foo","bar8",16);
+//        sol.set("foo","bar9",18);
+//        sol.set("foo","bar10",21);
+//        val = sol.get("foo",6);
+//        val = sol.get("foo",11);
+//        val = sol.get("foo",14);
+//        val = sol.get("foo",19);
         //TreeNode root2 = sol.createBinaryTree(new Integer[]{4,1,2});
     }
 }
