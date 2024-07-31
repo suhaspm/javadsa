@@ -113,27 +113,22 @@ public class BinaryTreeSolution {
     }
 
     public List<List<Integer>> levelOrder(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        List<List<Integer>> list = new ArrayList<List<Integer>>();
-        List<Integer> temp = new ArrayList<Integer>();
-        temp.add(root.val);
-        list.add(temp);
-        while(!queue.isEmpty()){
-            TreeNode val = queue.poll();
-            List<Integer> newList = new ArrayList<Integer>();
-            if(val.left != null){
-                queue.offer(val.left);
-                newList.add(val.left.val);
-            }
-            if(val.right != null){
-                queue.offer(val.right);
-                newList.add(val.right.val);
-            }
-            if(newList.size() > 0)
-                list.add(newList);
-        }
+        List<List<Integer>> list = new ArrayList<>();
+        preOrder(root, 0, list);
         return list;
+    }
+
+    private void preOrder(TreeNode root, int level, List<List<Integer>> list){
+        if(root == null) return;
+        if(list.size()==level){
+            List<Integer> l = new ArrayList<>();
+            l.add(root.val);
+            list.add(l);
+        }
+        else
+            list.get(level).add(root.val);
+        preOrder(root.left, level+1, list);
+        preOrder(root.right, level+1, list);
     }
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {

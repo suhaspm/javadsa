@@ -1,12 +1,10 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BinarySearchSolution {
     int[] arr;
     List<Integer> time;
     List<String[]> keyValue;
+    private HashMap<String, ArrayList<Pair>> hashMap;
 
     public int search(int[] nums, int target){
         int l = 0, h = nums.length - 1;
@@ -76,41 +74,40 @@ public class BinarySearchSolution {
     }
 
     public void TimeStamp(){
-        time = new ArrayList<>();
-        keyValue = new ArrayList<>();
+        hashMap = new HashMap<>();
     }
 
     public void set(String key, String value, int timestamp){
-        time.add(timestamp);
-        keyValue.add(new String[]{key, value});
+        if (hashMap.containsKey(key)) {
+            hashMap.get(key).add(new Pair(timestamp, value));
+        } else {
+            ArrayList<Pair> arr = new ArrayList<>();
+            arr.add(new Pair(timestamp, value));
+            hashMap.put(key, arr);
+        }
     }
 
     public String get(String key, int timestamp){
-        int l = 0, h = time.size()-1,i=0;
-        boolean notExact = false;
-        while(l <= h){
-            int mid = (l + h) / 2;
-            if(timestamp == time.get(mid)){
-                i = mid;
-                break;
-            }
-            if(timestamp < time.get(mid)) {
-                h = mid - 1;
-                i = l;
-                if(notExact)
-                    i = h;
-            }
-            else {
-                l = mid + 1;
-                i = h;
-                notExact = true;
+        String cand = "";
+
+        if (hashMap.containsKey(key)) {
+            ArrayList<Pair> arr = hashMap.get(key);
+            int low = 0, high = arr.size() - 1;
+
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                int timeVal = arr.get(mid).timestamp;
+                if (timeVal == timestamp) {
+                    return arr.get(mid).val;
+                } else if (timeVal < timestamp) {
+                    cand = arr.get(low).val;
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
             }
         }
-        String[] val = keyValue.get(i);
-        String res = "";
-        if(val[0] == key)
-            res = val[1];
-        return res;
+        return cand;
     }
 
     public boolean searchMatrx(int[][] matrix, int target){
@@ -197,5 +194,16 @@ public class BinarySearchSolution {
             n >>= 1;
         }
         return ans;
+    }
+
+    public int maxProduct(int[] A) {
+        int n = A.length;
+        double res = A[0], l = 0, r = 0;
+        for (int i = 0; i < n; i++) {
+            l =  (l == 0 ? 1 : l) * A[i];
+            r =  (r == 0 ? 1 : r) * A[n - 1 - i];
+            res = Math.max(res, Math.max(l, r));
+        }
+        return (int)res;
     }
 }

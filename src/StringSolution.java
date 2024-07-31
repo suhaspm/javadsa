@@ -74,7 +74,7 @@ public class StringSolution {
         return builder.toString();
     }
 
-    public int longestSubString(String s){
+    public int lengthOfLongestSubString(String s){
         int n = s.length();
         int maxLength = 0;
         Map<Character, Integer> charMap = new HashMap<>();

@@ -30,21 +30,9 @@ public class Array {
     }
 
     public int majorityElement(int[] nums){
-        int maj = 0;
-        Hashtable<Integer, Integer> table = new Hashtable<>();
-        for (int i = 0; i < nums.length; i++) {
-            if(table.containsKey(nums[i])) {
-                table.compute(nums[i], (k, val) -> val + 1);
-            }
-            else
-                table.put(nums[i], 1);
-        }
-        int val = 0;
-        for (Map.Entry<Integer,Integer> entry : table.entrySet()) {
-            if(entry.getValue() > nums.length / 2)
-                maj = entry.getKey();
-        }
-        return maj;
+        Arrays.sort(nums);
+        int n = nums.length;
+        return nums[n/2];
     }
 
     public boolean containsDuplicate(int[] nums){

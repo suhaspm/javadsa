@@ -8,7 +8,9 @@ public class StackSolution {
     private Node head;
     private Map<Integer, Integer> list;
     private Map<Integer, Stack<Integer>> map;
+    private List<Integer> res = new ArrayList<>();
     int maxfreq;
+    int[] fib = new int[31];
 
     public StackSolution(){
         stack = new Stack<>();
@@ -341,5 +343,288 @@ public class StackSolution {
         }
 
         return count;
+    }
+
+    public int[] nextGreaterElement(int[] nums1, int[] nums2){
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        for(int num : nums2){
+            while(!stack.isEmpty() && stack.peek() < num)
+                map.put(stack.pop(), num);
+            stack.push(num);
+        }
+        int i = 0;
+        for(int num : nums1){
+            nums1[i++] = map.getOrDefault(num, -1);
+        }
+        return nums1;
+    }
+
+    public List<Integer> preOrder(NAry root){
+        if(root == null) return res;
+        res.add(root.val);
+        for (int i = 0; i < root.children.size(); i++) {
+            preOrder(root.children.get(i));
+        }
+        return res;
+    }
+
+    public List<Integer> postorder(NAry root){
+        if(root == null) return res;
+        for (int i = 0; i < root.children.size(); i++) {
+            postorder(root.children.get(i));
+        }
+        res.add(root.val);
+        return res;
+    }
+
+    public int calPoints(String[] operations){
+        int sum = 0;
+        Stack<String> stack = new Stack<>();
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < operations.length; i++) {
+            int val = Integer.MAX_VALUE;
+            switch(operations[i]){
+                case "D":
+                    val = Integer.parseInt(stack.peek()) * 2;
+                    sum+=val;
+                    break;
+                case "+":
+                    val = list.getLast() + list.get(list.size()-2);
+                    sum+=val;
+                    break;
+                case "C":
+                    int t = Integer.parseInt(stack.pop());
+                    sum-=t;
+                    list.removeLast();
+                    break;
+                default:
+                    val = Integer.parseInt(operations[i]);
+                    sum+=val;
+                    break;
+            }
+            if(val!=Integer.MAX_VALUE) {
+                stack.push("" + val);
+                list.add(val);
+            }
+        }
+        return sum;
+    }
+
+    public String removeOuterParentheses(String s){
+        int cnt = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                if (cnt > 0)
+                    sb.append(ch);
+                cnt++;
+            }
+            else{
+                cnt--;
+                if(cnt>0)
+                    sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
+
+    public int maxDepth(NAry root){
+        size = 0;
+        maxDepth(root, 0);
+        return size;
+    }
+
+    private void maxDepth(NAry root, int level){
+        if(root == null) return;
+        if(level>size)
+            size = level;
+        for (int i = 0; i < root.children.size(); i++) {
+            maxDepth(root.children.get(i), level+1);
+        }
+    }
+
+    public int countPrefixSuffixPairs(String[] v){
+        int n=v.length;
+        int c=0;
+        for(int i=0;i<n;i++) {
+            for(int j=i+1;j<n;j++) {
+                if(isValid(v[i],v[j]))
+                    c++;
+            }
+        }
+        return c;
+    }
+
+    private boolean isValid(String a,String b) {
+        int n=a.length(),m=b.length();
+        int i=0,j=0;
+        while(i<n && j<m && a.charAt(i)==b.charAt(j)) {
+            i++;
+            j++;
+        }
+        if(i!=n)
+            return false;
+        i=n-1;j=m-1;
+        while(i>=0 && j>=0 && a.charAt(i)==b.charAt(j)) {
+            i--;
+            j--;
+        }
+        return i==-1;
+    }
+
+    public int fib(int n){
+        if(n<=1) return n;
+        else if(fib[n]!=0)
+            return fib[n];
+        else
+            return fib[n] = fib(n-1)+fib(n-2);
+    }
+
+    public String clearStars(String s){
+        HashSet<Integer> removeSet = new HashSet<>();
+        PriorityQueue<Character> pq = new PriorityQueue<>();
+        ArrayList<ArrayList<Integer> > indices =
+                new ArrayList<ArrayList<Integer>>();
+        for (int i = 0;i<26;i++){
+            indices.add(new ArrayList<Integer>());
+        }
+        char ch;
+        for (int i = 0;i<s.length();i++){
+            if (s.charAt(i) == '*'){
+                removeSet.add(i);
+                ch = pq.peek();
+                removeSet.add(indices.get((int)(ch - 'a')).get(indices.get((int)(ch - 'a')).size()-1));
+                indices.get((int)(ch - 'a')).remove(indices.get((int)(ch - 'a')).size()-1);
+                if (indices.get((int)(ch - 'a')).size()==0){
+                    pq.poll();
+                }
+                continue;
+            }
+            if (indices.get((int)(s.charAt(i) - 'a')).size() == 0){
+                pq.add(s.charAt(i));
+            }
+            indices.get((int)(s.charAt(i) - 'a')).add(i);
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (int i = 0;i<s.length();i++){
+            if (!removeSet.contains(i)){
+                res.append(s.charAt(i));
+            }
+        }
+        return res.toString();
+    }
+
+    public long maximumSumOfHeights(int[] heights){
+        int n = heights.length;
+//        List<Integer> maxIdx = new ArrayList<>();
+//        for (int i = 0; i < n; i++) {
+//            if(heights[i] >= peak){
+//                peak = heights[i];
+//                maxIdx.add(i);
+//            }
+//        }
+        int[] tempHeight = new int[n];
+        long maxHeight = 0;
+        for (int j = 0; j < n; j++) {
+            long height = heights[j];
+            tempHeight[j] = heights[j];
+            for (int i = j - 1; i >= 0; i--) {
+                tempHeight[i] = Math.min(heights[i], tempHeight[i + 1]);
+                height += tempHeight[i];
+            }
+            for (int i = j + 1; i < n; i++) {
+                tempHeight[i] = Math.min(heights[i], tempHeight[i - 1]);
+                height += tempHeight[i];
+            }
+            maxHeight = Math.max(maxHeight,height);
+        }
+        return maxHeight;
+    }
+
+    public long maximumSumOfHeights(List<Integer> A) {
+        int n = A.size();
+
+        long[] left = new long[n];
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        long res = 0, cur = 0;
+        for (int i = 0; i < n; i++) {
+            while (stack.size() > 1 && A.get(stack.peek()) > A.get(i)) {
+                int j = stack.pop();
+                cur -= 1L * (j - stack.peek()) * A.get(j);
+            }
+            cur += 1L * (i - stack.peek()) * A.get(i);
+            stack.push(i);
+            left[i] = cur;
+        }
+
+        stack.clear();
+        stack.push(n);
+        cur = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            while (stack.size() > 1 && A.get(stack.peek()) > A.get(i)) {
+                int j = stack.pop();
+                cur -= 1L * -(j - stack.peek()) * A.get(j);
+            }
+            cur += 1L * -(i - stack.peek()) * A.get(i);
+            stack.push(i);
+            res = Math.max(res, left[i] + cur - A.get(i));
+        }
+
+        return res;
+    }
+
+    public long numberOfPairs(int[] nums1, int[] nums2, int k){
+        Map<Integer,Integer> map = new HashMap<>();
+        for (int i = 0; i < nums2.length; i++) {
+            map.put(i*k, map.getOrDefault(i*k, 0) + 1);
+        }
+        long ans = 0;
+        for(int i : nums1){
+            for(int j=1;j*j<=i;j++)
+            {
+                if(i%j==0)
+                {
+                    if(map.containsKey(j))
+                    {
+                        ans += map.get(j);
+                    }
+                    int val=i/j;
+                    if(j!=val && map.containsKey(val))
+                    {
+                        ans += map.get(val);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int[] queryResults(int limit, int[][] queries){
+        Map<Integer, Integer> distinctBalls = new HashMap<>();
+        Map<Integer, Integer> distinctColors = new HashMap<>();
+        int n = queries.length, distinct = 0;
+        int[] output = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int ball = queries[i][0], color = queries[i][1];
+            if(distinctBalls.containsKey(ball)){
+                int existingColor = distinctBalls.get(ball);
+                distinctColors.put(existingColor, distinctColors.get(existingColor)-1);
+                if(distinctColors.get(existingColor) == 0)
+                    distinctColors.remove(existingColor);
+                distinctBalls.put(ball, color);
+                distinctColors.put(color, distinctColors.getOrDefault(color,0)+1);
+            }
+            else{
+                distinctBalls.put(ball, color);
+                distinctColors.put(color, distinctColors.getOrDefault(color,0)+1);
+            }
+            output[i] = distinctColors.size();
+        }
+        return output;
     }
 }
