@@ -2,6 +2,7 @@ public class Node {
     int val, min,idx;//min = freq
     char ch;
     Node next;
+    Node prev;
     public Node(int val, int min, Node next){
         this.val = val;
         this.min = min;
